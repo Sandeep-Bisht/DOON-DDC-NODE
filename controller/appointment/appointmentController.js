@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer');
 module.exports = {
     createAppointment : async (req, res) => {
         console.log("inside create appointment", req.body);
-        const { name, email, phone } = req.body;
+        const { name, email,contactNo,date, time, description } = req.body;
       
         const checkTableSql = 'SHOW TABLES LIKE "appointment"';
         connection.query(checkTableSql, (error, results) => {
@@ -12,7 +12,7 @@ module.exports = {
             return res.status(500).send('Error checking for table existence');
           }
           if (results.length === 0) {
-            const createTableSql = 'CREATE TABLE appointment (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(50) NOT NULL, email VARCHAR(50), phone VARCHAR(20), PRIMARY KEY (id))';
+            const createTableSql = 'CREATE TABLE appointment (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(50) NOT NULL, email VARCHAR(50), contactNo VARCHAR(20),date VARCHAR(20),time VARCHAR(20),description VARCHAR(200), PRIMARY KEY (id))';
             connection.query(createTableSql, (error) => {
               if (error) {
                 console.error(error);
@@ -27,8 +27,8 @@ module.exports = {
         });
       
         function insertData() {
-          const insertSql = 'INSERT INTO appointment (name, email, phone) VALUES (?, ?, ?)';
-          const values = [name, email, phone];
+          const insertSql = 'INSERT INTO appointment (name, email, contactNo, date, time, description) VALUES (?, ?, ?, ?, ?, ?)';
+          const values = [name, email, contactNo,date, time, description ];
       
           connection.query(insertSql, values, async (error, result) => {
             if (error) {
@@ -36,7 +36,12 @@ module.exports = {
               return res.status(500).send('Error inserting data');
             }
             console.log('New user added to database!');
-            res.status(200).send('User added successfully!');
+            // res.status(200).send('User added successfully!');
+            res.status(200).json({
+              status: 'success',
+              message: 'User added successfully!',
+            });
+            
             
             // Send email to user
             const transporter = nodemailer.createTransport({
