@@ -44,7 +44,9 @@ module.exports = {
             
             // Send email to user
             const transporter = nodemailer.createTransport({
-              service: 'gmail',
+               service: 'smtppro.zoho.com',
+               port: 465,
+              secure: false,
               auth: {
                 user: 'info@doonddc.com',
                 pass: 'doon@123'
