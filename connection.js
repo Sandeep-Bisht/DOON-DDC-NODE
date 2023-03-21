@@ -6,7 +6,7 @@ const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
-  database: 'digestive_care'
+  database: 'doon_ddc'
 });
 
      // connect to MySQL
