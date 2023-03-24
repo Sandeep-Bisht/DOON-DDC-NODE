@@ -59,7 +59,7 @@ module.exports = {
            ]
       
             const mailOptions = {
-              from: 'sandeepbisht29@gmail.com',
+              from: 'info@doonddc.com',
               to: mailList,
               subject: 'Appointment Confirmation at Digestive Care',
               text: `Hi ${name},\n\nYour appointment has been confirmed. We look forward to seeing you soon!\n\nBest regards,\nDigestive Care`

@@ -2,7 +2,6 @@ const express = require("express")
 const bodyParser =require('body-parser')
 const cors = require('cors');
 const app = express();
-//const mysql = require('./connection').con;
 require('dotenv').config()
 const db = require("./connection")
 
@@ -15,7 +14,6 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended : true }));
 
 app.use('/api/appointment',AppointmentRounter);
-
 app.get("/", (req,res) => {
     res.send("Server is running")
 })
