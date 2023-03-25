@@ -49,7 +49,7 @@ module.exports = {
               secure: false,
               auth: {
                 user: 'info@doonddc.com',
-                pass: 'doon@123'
+                pass: 'Doon@123'
               }
             });
  
