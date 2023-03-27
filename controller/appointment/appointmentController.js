@@ -27,7 +27,7 @@ module.exports = {
         });
       
         function insertData() {
-          const insertSql = 'INSERT INTO appointment (name, email, contactNo, date, time, description  ) VALUES (?, ?, ?,?,?,?)';
+          const insertSql = 'INSERT INTO appointment (name, email, contactNo, date, time, description) VALUES (?,?,?,?,?,?)';
           const values = [name, email, contactNo,date, time, description];
           // const admin = "sunil.baurai@giksindia.com"
       
@@ -43,7 +43,6 @@ module.exports = {
             const transporter = nodemailer.createTransport({
               host: 'smtppro.zoho.com',
                port: 587,
-              secure: false,
               auth: {
                 user: 'info@doonddc.com',
                 pass: 'Doon@123'
