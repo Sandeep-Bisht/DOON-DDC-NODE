@@ -37,21 +37,19 @@ module.exports = {
               return res.status(500).send('Error inserting data');
             }
             console.log('New user added to database!');
-            res.status(200).send({
-              status : 200,
-              msg : 'User added successfully!'
-            });
+           
             
             // Send email to user
             const transporter = nodemailer.createTransport({
-               service: 'smtppro.zoho.com',
-               port: 465,
+              host: 'smtppro.zoho.com',
+               port: 587,
               secure: false,
               auth: {
                 user: 'info@doonddc.com',
                 pass: 'Doon@123'
               }
             });
+            console.log("inside transporte")
  
            var mailList = [
             email,
@@ -68,6 +66,10 @@ module.exports = {
             try {
               await transporter.sendMail(mailOptions);
               console.log('Email sent to user!');
+              res.status(200).send({
+                status : 200,
+                msg : 'User added successfully!'
+              });
             } catch (error) {
               console.error(error);
             }
