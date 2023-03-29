@@ -13,7 +13,7 @@ module.exports = {
       }
       if (results.length === 0) {
         const createTableSql =
-          "CREATE TABLE appointment (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(50) NOT NULL, email VARCHAR(50), contactNo VARCHAR(20), date VARCHAR(30), time VARCHAR(20), description VARCHAR(100)  PRIMARY KEY (id))";
+          "CREATE TABLE appointment (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(50) NOT NULL, email VARCHAR(50), contactNo VARCHAR(20), date VARCHAR(30), time VARCHAR(20), description VARCHAR(100), PRIMARY KEY (id))";
         connection.query(createTableSql, (error) => {
           if (error) {
             console.error(error);
