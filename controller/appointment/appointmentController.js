@@ -31,8 +31,6 @@ module.exports = {
       const insertSql =
         "INSERT INTO appointment (name, email, contactNo, date, time, description) VALUES (?,?,?,?,?,?)";
       const values = [name, email, contactNo, date, time, description];
-      // const admin = "sunil.baurai@giksindia.com"
-
       connection.query(insertSql, values, async (error, result) => {
         if (error) {
           console.error(error);
