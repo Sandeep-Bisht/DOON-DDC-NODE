@@ -87,4 +87,23 @@ module.exports = {
         .send(`Data found successfully! ${JSON.stringify(results)}`);
     });
   },
+
+  getSpecificDateAppointment: async (req, res) => {
+    console.log("inside get specific date appointment", req.params);
+    const { date } = req.params; // Assuming the date is sent as a parameter in the URL
+    console.log(date, "dagteeeeeeeeeee")
+  
+    connection.query("SELECT * FROM appointment WHERE date = ?", [date], (error, results) => {
+      if (error) {
+        console.error(error);
+        return res.status(500).send("Error fetching data");
+      }
+      console.log
+      res.status(200).send({
+        msg : 'Data found successfully!',
+        data : results,
+        status: 200
+      });
+    });
+  },
 };
