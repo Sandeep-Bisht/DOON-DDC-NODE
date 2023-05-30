@@ -20,12 +20,26 @@ module.exports = {
             return res.status(500).send("Error creating table");
           }
           console.log("appointment table created!");
-          insertData();
+          createPatientTable();
+          // insertData();
         });
       } else {
         insertData();
       }
     });
+
+    function createPatientTable() {
+      const createTableSql =
+        "CREATE TABLE patient (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(50) NOT NULL, email VARCHAR(50) UNIQUE, contactNo VARCHAR(20),description VARCHAR(100), PRIMARY KEY (id))";
+      connection.query(createTableSql, (error) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).send("Error creating patient table");
+        }
+        console.log("patient table created!");
+        insertData();
+      });
+    }
 
     function insertData() {
       const insertSql =
@@ -38,6 +52,28 @@ module.exports = {
         }
         console.log("New user added to database!");
 
+         // Check if patient exists in the patient table based on email
+      const checkPatientSql = "SELECT * FROM patient WHERE email = ?";
+      connection.query(checkPatientSql, [email], (error, results) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).send("Error checking patient existence");
+        }
+        if (results.length === 0) {
+          // Insert patient into patient table
+          const insertPatientSql =
+            "INSERT INTO patient (name, email, contactNo, description) VALUES (?,?,?,?)";
+          const patientValues = [name, email, contactNo, description];
+          connection.query(insertPatientSql, patientValues, (error, result) => {
+            if (error) {
+              console.error(error);
+              return res.status(500).send("Error inserting patient data");
+            }
+            console.log("New patient added to database!", result);
+          });
+        }
+      });
+       
         // Send email to user
         const transporter = nodemailer.createTransport({
           host: "smtppro.zoho.com",
