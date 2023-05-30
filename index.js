@@ -8,6 +8,8 @@ const db = require("./connection")
 const AppointmentRounter = require('./controller/appointment/appointmentRouting');
 const RegistrationRouter = require("./controller/registration/registrationRouting");
 const AuthanticationRouter = require('./controller/authantication/authanticationRouting');
+const PatientRouter = require('./controller/patient/patientRouting');
+const BlogRouter = require("./controller/blog/blogRouting");
 
 
 
@@ -18,6 +20,9 @@ app.use(bodyParser.urlencoded({extended : true }));
 app.use('/api/appointment', AppointmentRounter);
 app.use('/api/registration', RegistrationRouter)
 app.use('/api/authantication', AuthanticationRouter);
+app.use('/api/patient', PatientRouter),
+app.use('/public', express.static('public'));
+app.use('/api/blog', BlogRouter)
 app.get("/", (req,res) => {
     res.send("Server is running")
 })
