@@ -63,6 +63,7 @@ module.exports = {
         }
       },
       getAllBlogs: async (req, res) => {
+        console.log("insid e all bligs")
         const selectSql = "SELECT * FROM blog";
         connection.query(selectSql, (error, results) => {
           if (error) {

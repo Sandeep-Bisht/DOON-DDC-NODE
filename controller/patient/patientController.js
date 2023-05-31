@@ -5,19 +5,19 @@ module.exports = {
     console.log("inside all patient", req.query);
 
     // Pagination parameters
-    const page = parseInt(req.query.page) || 1; // Default to page 1
+    const page = req.query.page || 1; // Default to page 1
     const limit = 20; // Number of records per page
     const offset = (page - 1) * limit; // Offset calculation
 
-    const getAllPatientsSql = 'SELECT * FROM patient LIMIT ? OFFSET ?';
-    const countSql = 'SELECT COUNT(*) AS count FROM patient';
-
-    connection.query(getAllPatientsSql, [limit, offset], (error, results) => {
+    const getAllPatientsSql = `SELECT * FROM patient LIMIT ${limit} OFFSET ${offset}`;
+    connection.query(getAllPatientsSql, (error, results) => {
       if (error) {
         console.error(error);
         return res.status(500).send("Error fetching patients");
       }
 
+      // Fetch total count of patients for pagination
+      const countSql = 'SELECT COUNT(*) AS count FROM patient';
       connection.query(countSql, (error, countResult) => {
         if (error) {
           console.error(error);
@@ -29,7 +29,7 @@ module.exports = {
 
         res.status(200).send({
           data: results,
-          page,
+          page: parseInt(page),
           totalPages,
           totalCount,
         });
