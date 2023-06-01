@@ -21,7 +21,7 @@ app.use('/api/appointment', AppointmentRounter);
 app.use('/api/registration', RegistrationRouter)
 app.use('/api/authantication', AuthanticationRouter);
 app.use('/api/patient', PatientRouter),
-app.use('/public', express.static('public'));
+app.use('/api/public', express.static('public'));
 app.use('/api/blog', BlogRouter)
 app.get("/", (req,res) => {
     res.send("Server is running")
