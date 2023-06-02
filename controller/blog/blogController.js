@@ -84,5 +84,20 @@ module.exports = {
           res.status(200).json(blogs);
         });
       },
+      deleteBlogById: async (req, res) => {
+        console.log("inside delete blog", req.body);
+        const { id } = req.body;
+        const deleteQuery = `DELETE FROM blog WHERE id = ${id}`;
+        connection.query(deleteQuery, (error, result) => {
+          if(error){
+            console.error(error);
+            return res.status(500).send("Error in deleting blogs");
+          } 
+          res.status(200).json({
+            data : result,
+            message : "Blog deleted successfully"
+          })
+        })
+      }
       
 };
