@@ -142,4 +142,28 @@ module.exports = {
       });
     });
   },
+
+  getSpecificPeriodDateAppointment: async (req, res) => {
+    console.log("inside get specific PeriodDate Appointment date appointment", req.params);
+    const { fromDate, tillDate } = req.params; // Assuming fromDate and toDate are sent as parameters in the URL
+    console.log(fromDate, tillDate, "fromDate, tillDate");
+  
+    connection.query(
+      "SELECT * FROM appointment WHERE date BETWEEN ? AND ?",
+      [fromDate, tillDate],
+      (error, results) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).send("Error fetching data");
+        }
+        console.log(results);
+        res.status(200).send({
+          msg: "Data found successfully!",
+          data: results,
+          status: 200,
+        });
+      }
+    );
+  },
+  
 };
