@@ -52,28 +52,32 @@ module.exports = {
         }
         console.log("Appointmnet has confirmed");
 
-         // Check if patient exists in the patient table based on email
-      const checkPatientSql = "SELECT * FROM patient WHERE email = ?";
-      connection.query(checkPatientSql, [email], (error, results) => {
-        if (error) {
-          console.error(error);
-          return res.status(500).send("Error checking patient existence");
-        }
-        if (results.length === 0) {
-          // Insert patient into patient table
-          const insertPatientSql =
-            "INSERT INTO patient (name, email, contactNo, description) VALUES (?,?,?,?)";
-          const patientValues = [name, email, contactNo, description];
-          connection.query(insertPatientSql, patientValues, (error, result) => {
-            if (error) {
-              console.error(error);
-              return res.status(500).send("Error inserting patient data");
-            }
-            console.log("New patient added to database!", result);
-          });
-        }
-      });
-       
+        // Check if patient exists in the patient table based on email
+        const checkPatientSql = "SELECT * FROM patient WHERE email = ?";
+        connection.query(checkPatientSql, [email], (error, results) => {
+          if (error) {
+            console.error(error);
+            return res.status(500).send("Error checking patient existence");
+          }
+          if (results.length === 0) {
+            // Insert patient into patient table
+            const insertPatientSql =
+              "INSERT INTO patient (name, email, contactNo, description) VALUES (?,?,?,?)";
+            const patientValues = [name, email, contactNo, description];
+            connection.query(
+              insertPatientSql,
+              patientValues,
+              (error, result) => {
+                if (error) {
+                  console.error(error);
+                  return res.status(500).send("Error inserting patient data");
+                }
+                console.log("New patient added to database!", result);
+              }
+            );
+          }
+        });
+
         // Send email to user
         const transporter = nodemailer.createTransport({
           host: "smtppro.zoho.com",
@@ -84,7 +88,7 @@ module.exports = {
           },
         });
         console.log("inside transporte");
-        let adminEmail = "doonddc@gmail.com"
+        let adminEmail = "doonddc@gmail.com";
 
         var mailList = [email, adminEmail];
 
@@ -100,7 +104,7 @@ module.exports = {
           console.log("Email sent to user!");
           res.status(200).send({
             status: 200,
-            msg: "User added successfully!",
+            msg: "Your Appointment has confirmed",
           });
         } catch (error) {
           console.error(error);
@@ -127,27 +131,34 @@ module.exports = {
   getSpecificDateAppointment: async (req, res) => {
     console.log("inside get specific date appointment", req.params);
     const { date } = req.params; // Assuming the date is sent as a parameter in the URL
-    console.log(date, "dagteeeeeeeeeee")
-  
-    connection.query("SELECT * FROM appointment WHERE date = ?", [date], (error, results) => {
-      if (error) {
-        console.error(error);
-        return res.status(500).send("Error fetching data");
+    console.log(date, "dagteeeeeeeeeee");
+
+    connection.query(
+      "SELECT * FROM appointment WHERE date = ?",
+      [date],
+      (error, results) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).send("Error fetching data");
+        }
+        console.log;
+        res.status(200).send({
+          msg: "Data found successfully!",
+          data: results,
+          status: 200,
+        });
       }
-      console.log
-      res.status(200).send({
-        msg : 'Data found successfully!',
-        data : results,
-        status: 200
-      });
-    });
+    );
   },
 
   getSpecificPeriodDateAppointment: async (req, res) => {
-    console.log("inside get specific PeriodDate Appointment date appointment", req.params);
+    console.log(
+      "inside get specific PeriodDate Appointment date appointment",
+      req.params
+    );
     const { fromDate, tillDate } = req.params; // Assuming fromDate and toDate are sent as parameters in the URL
     console.log(fromDate, tillDate, "fromDate, tillDate");
-  
+
     connection.query(
       "SELECT * FROM appointment WHERE date BETWEEN ? AND ?",
       [fromDate, tillDate],
@@ -165,5 +176,52 @@ module.exports = {
       }
     );
   },
+ 
+  
+  updateAppointment: async (req, res) => {
+    console.log("inside update appointment", req.body);
+    const { id, consultation } = req.body;
+  
+    // Check if the consultation column already exists in the table
+    connection.query("SHOW COLUMNS FROM appointment LIKE 'consultation';", (error, results) => {
+      if (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Failed to update appointment" });
+      }
+  
+      if (results.length === 0) {
+        // Add the consultation column if it doesn't exist
+        connection.query("ALTER TABLE appointment ADD COLUMN consultation varchar(50);", (error, results) => {
+          if (error) {
+            console.error(error);
+            return res.status(500).json({ error: "Failed to update appointment" });
+          }
+  
+          // Update the specific entry with the given id
+          updateConsultation(id, consultation, res);
+        });
+      } else {
+        // Update the specific entry with the given id
+        updateConsultation(id, consultation, res);
+      }
+    });
+  }
+  
+  
   
 };
+
+function updateConsultation(id, consultation, res) {
+  connection.query(
+    `UPDATE appointment SET consultation = '${consultation}' WHERE id = ${id};`,
+    (error, results) => {
+      if (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Failed to update appointment" });
+      }
+
+      console.log("Consultation value updated successfully.");
+      res.status(200).json({ message: "Appointment updated successfully" });
+    }
+  );
+}
