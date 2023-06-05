@@ -50,7 +50,7 @@ module.exports = {
           console.error(error);
           return res.status(500).send("Error inserting data");
         }
-        console.log("New user added to database!");
+        console.log("Appointmnet has confirmed");
 
          // Check if patient exists in the patient table based on email
       const checkPatientSql = "SELECT * FROM patient WHERE email = ?";
