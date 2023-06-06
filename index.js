@@ -10,6 +10,7 @@ const RegistrationRouter = require("./controller/registration/registrationRoutin
 const AuthanticationRouter = require('./controller/authantication/authanticationRouting');
 const PatientRouter = require('./controller/patient/patientRouting');
 const BlogRouter = require("./controller/blog/blogRouting");
+const HolidayRouter = require('./controller/holiday/holidayRouting')
 
 
 
@@ -21,6 +22,7 @@ app.use('/api/appointment', AppointmentRounter);
 app.use('/api/registration', RegistrationRouter)
 app.use('/api/authantication', AuthanticationRouter);
 app.use('/api/patient', PatientRouter),
+app.use('/api/holidayList', HolidayRouter)
 app.use('/api/public', express.static('public'));
 app.use('/api/blog', BlogRouter)
 app.get("/", (req,res) => {

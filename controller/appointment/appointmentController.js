@@ -220,7 +220,6 @@ function updateConsultation(id, consultation, res) {
         return res.status(500).json({ error: "Failed to update appointment" });
       }
 
-      console.log("Consultation value updated successfully.");
       res.status(200).json({ message: "Appointment updated successfully" });
     }
   );
