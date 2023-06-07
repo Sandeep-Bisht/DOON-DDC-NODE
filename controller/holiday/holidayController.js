@@ -25,5 +25,25 @@ module.exports = {
             })
         })
 
+    },
+    getUpcomingHolidayList : async (req, res) => {
+        console.log("inside upcoming holiday list")
+        const { date } = req.query;
+        console.log(date, "date")
+  
+        const query = "SELECT * FROM holiday WHERE date >= ?";
+        
+        connection.query(query, [date], (error, results) => {
+          if (error) {
+            console.error('Error fetching holiday list:', error);
+            return res.status(500).send("Error fetching data");
+          }
+      
+          res.status(200).send({
+            msg: "Data found successfully!",
+            data: results,
+          });
+        });
     }
+        
 }
