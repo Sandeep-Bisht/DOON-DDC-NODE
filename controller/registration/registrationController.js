@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 module.exports = {
     adminRegistration : async (req, res) => {
         const { adminEmail, password} = req.body;
-        console.log(adminEmail, "email", password, "password")
 
         const checkTable = 'SHOW TABLES LIKE "registration"';
         connection.query(checkTable, (error, result) => {
@@ -19,7 +18,6 @@ module.exports = {
                         console.error(error);
                         return res.status(500).send("Error creating table");
                     }
-                    console.log("registration table created!");
                     insertData();                    
                 })
             } else {
@@ -34,13 +32,11 @@ module.exports = {
                     const insertData = 
                     "INSERT INTO registration (adminEmail, password) VALUES (?,?)";
                     const values = [adminEmail, hash]
-                    console.log("converted pass", hash)
                     connection.query(insertData, values, async(error, result) => {
                         if(error){
                             console.log(error);
                             return res.status(500).send("Error inserting data");
                         } else{
-                            console.log("Admin registerd successfully")
                             return res.status(200).send({
                                 status: 200,
                                 msg:"admin created successfully"

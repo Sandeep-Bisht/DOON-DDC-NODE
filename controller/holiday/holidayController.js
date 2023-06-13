@@ -1,7 +1,6 @@
 const connection = require('../../connection');
 module.exports = {
     markRoutineHoliday : async (req, res) => {
-        console.log("inside mark holiday");
         const {date, reason} = req.body
 
         connection.query(`INSERT INTO holiday (date, reason) VALUES ('${date}', '${reason}')`, (error, results) => {
@@ -13,7 +12,6 @@ module.exports = {
         })
     },
     getAllHolidayList : async (req, res) => {
-        console.log("inside get All Holoiday list")
         connection.query("SELECT * FROM holiday", (error, results) => {
             if(error){
                 return res.status(500).send("Error Fetching data")
@@ -27,9 +25,7 @@ module.exports = {
 
     },
     getUpcomingHolidayList : async (req, res) => {
-        console.log("inside upcoming holiday list")
         const { date } = req.query;
-        console.log(date, "date")
   
         const query = "SELECT * FROM holiday WHERE date >= ?";
         

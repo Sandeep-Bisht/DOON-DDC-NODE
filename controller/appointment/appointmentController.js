@@ -2,7 +2,6 @@ const connection = require("../../connection");
 const nodemailer = require("nodemailer");
 module.exports = {
   createAppointment: async (req, res) => {
-    console.log("inside create appointment", req.body);
     const { name, email, contactNo, date, time, description } = req.body;
 
     const checkTableSql = 'SHOW TABLES LIKE "appointment"';
@@ -19,7 +18,6 @@ module.exports = {
             console.error(error);
             return res.status(500).send("Error creating table");
           }
-          console.log("appointment table created!");
           createPatientTable();
           // insertData();
         });
@@ -36,7 +34,6 @@ module.exports = {
           console.error(error);
           return res.status(500).send("Error creating patient table");
         }
-        console.log("patient table created!");
         insertData();
       });
     }
@@ -50,7 +47,6 @@ module.exports = {
           console.error(error);
           return res.status(500).send("Error inserting data");
         }
-        console.log("Appointmnet has confirmed");
 
         // Check if patient exists in the patient table based on email
         const checkPatientSql = "SELECT * FROM patient WHERE email = ?";
@@ -72,7 +68,6 @@ module.exports = {
                   console.error(error);
                   return res.status(500).send("Error inserting patient data");
                 }
-                console.log("New patient added to database!", result);
               }
             );
           }
@@ -87,7 +82,6 @@ module.exports = {
             pass: "Doon@123",
           },
         });
-        console.log("inside transporte");
         let adminEmail = "doonddc@gmail.com";
 
         var mailList = [email, adminEmail];
@@ -101,7 +95,6 @@ module.exports = {
         };
         try {
           await transporter.sendMail(mailOptions);
-          console.log("Email sent to user!");
           res.status(200).send({
             status: 200,
             msg: "Your Appointment has confirmed",
@@ -114,7 +107,6 @@ module.exports = {
   },
 
   getAllAppointment: async (req, res) => {
-    console.log("inside get all appointment", req.body);
 
     connection.query("SELECT * FROM appointment", (error, results) => {
       if (error) {
@@ -129,9 +121,7 @@ module.exports = {
   },
 
   getSpecificDateAppointment: async (req, res) => {
-    console.log("inside get specific date appointment", req.params);
     const { date } = req.params; // Assuming the date is sent as a parameter in the URL
-    console.log(date, "dagteeeeeeeeeee");
 
     connection.query(
       "SELECT * FROM appointment WHERE date = ?",
@@ -141,7 +131,7 @@ module.exports = {
           console.error(error);
           return res.status(500).send("Error fetching data");
         }
-        console.log;
+        // console.log;
         res.status(200).send({
           msg: "Data found successfully!",
           data: results,
@@ -152,12 +142,8 @@ module.exports = {
   },
 
   getSpecificPeriodDateAppointment: async (req, res) => {
-    console.log(
-      "inside get specific PeriodDate Appointment date appointment",
-      req.params
-    );
+    
     const { fromDate, tillDate } = req.params; // Assuming fromDate and toDate are sent as parameters in the URL
-    console.log(fromDate, tillDate, "fromDate, tillDate");
 
     connection.query(
       "SELECT * FROM appointment WHERE date BETWEEN ? AND ?",
@@ -167,7 +153,6 @@ module.exports = {
           console.error(error);
           return res.status(500).send("Error fetching data");
         }
-        console.log(results);
         res.status(200).send({
           msg: "Data found successfully!",
           data: results,
@@ -179,7 +164,6 @@ module.exports = {
  
   
   updateAppointment: async (req, res) => {
-    console.log("inside update appointment", req.body);
     const { id, consultation } = req.body;
   
     // Check if the consultation column already exists in the table
