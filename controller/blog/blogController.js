@@ -3,7 +3,6 @@ const fs = require('fs');
 
 module.exports = {
     createBlog: async (req, res) => {
-        console.log("inside create blog", req.body, req.files);
         const { title, description, content, slug } = req.body;
         const featuredImage = req.files[0]; // Assuming only one image file is uploaded
     
@@ -21,7 +20,6 @@ module.exports = {
                 console.error(error);
                 return res.status(500).send("Error creating table");
               }
-              console.log("blog table created!");
               insertData();
             });
           } else {
@@ -56,14 +54,12 @@ module.exports = {
                 console.error(error);
                 return res.status(500).send("Error inserting blog");
               }
-              console.log("blog added to database!");
               res.status(200).send("Blog added to database");
             });
           });
         }
       },
       getAllBlogs: async (req, res) => {
-        console.log("insid e all bligs")
         const selectSql = "SELECT * FROM blog";
         connection.query(selectSql, (error, results) => {
           if (error) {
@@ -80,12 +76,10 @@ module.exports = {
             };
           });
       
-          console.log("Blogs retrieved successfully");
           res.status(200).json(blogs);
         });
       },
       deleteBlogById: async (req, res) => {
-        console.log("inside delete blog", req.body);
         const { id } = req.body;
         const deleteQuery = `DELETE FROM blog WHERE id = ${id}`;
         connection.query(deleteQuery, (error, result) => {

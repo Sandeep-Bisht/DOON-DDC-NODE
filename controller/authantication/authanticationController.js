@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 
 module.exports = {
   isUser: async (req, res) => {
-    console.log("inside authantication is user");
     const { adminEmail, password } = req.body;
     const query = `SELECT * FROM registration WHERE adminEmail = '${adminEmail}'`;
     connection.query(query, adminEmail, async (error, result) => {
@@ -26,7 +25,6 @@ module.exports = {
             hashPassword,
             async (error, result) => {
               if (result) { 
-                console.log(user, "user")
                 const payload = {
                     adminEmail : user.adminEmail,
                     password : user.password,

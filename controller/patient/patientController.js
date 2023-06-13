@@ -2,7 +2,6 @@ const connection = require('../../connection');
 
 module.exports = {
   getAllPatients: (req, res) => {
-    console.log("inside all patient", req.query);
 
     // Pagination parameters
     const page = req.query.page || 1; // Default to page 1
