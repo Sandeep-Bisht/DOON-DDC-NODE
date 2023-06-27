@@ -3,7 +3,6 @@ const nodemailer = require("nodemailer");
 module.exports = {
   createAppointment: async (req, res) => {
     const { name, email, contactNo, date, time, description } = req.body;
-    console.log( name, email, contactNo, date, time, description , "dataaaaa")
 
     const checkTableSql = 'SHOW TABLES LIKE "appointment"';
     connection.query(checkTableSql, (error, results) => {
@@ -83,8 +82,8 @@ module.exports = {
             pass: "Doon@123",
           },
           tls: {
-            rejectUnauthorized: false, // Add this line to disable certificate verification
-          },
+    rejectUnauthorized: false, // Add this line to disable certificate verification
+  },
         });
         let adminEmail = "doonddc@gmail.com";
 
