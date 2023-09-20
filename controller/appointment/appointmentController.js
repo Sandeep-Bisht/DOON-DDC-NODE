@@ -3,7 +3,6 @@ const nodemailer = require("nodemailer");
 module.exports = {
   createAppointment: async (req, res) => {
     const { name, email, contactNo, date, time, description } = req.body;
-    console.log( name, email, contactNo, date, time, description , "dataaaaa")
 
     const checkTableSql = 'SHOW TABLES LIKE "appointment"';
     connection.query(checkTableSql, (error, results) => {
@@ -83,8 +82,8 @@ module.exports = {
             pass: "Doon@123",
           },
           tls: {
-            rejectUnauthorized: false, // Add this line to disable certificate verification
-          },
+    rejectUnauthorized: false, // Add this line to disable certificate verification
+  },
         });
         let adminEmail = "doonddc@gmail.com";
 
@@ -93,9 +92,9 @@ module.exports = {
         const mailOptions = {
           from: "info@doonddc.com",
           to: mailList,
-          subject: "Appointment Confirmation at Doon Digestive Care",
+          subject: "Appointment Confirmation at  Digestive Disease Care",
           text: `Hi ${name},\n\nYour appointment has been confirmed on ${date} ${time}. We look forward to seeing you soon!\n\nPlease arrive 15 minutes before the scheduled time to avoid confusion.\n\n Best regards,
-          \nDoon Digestive Care\n+91-9997711444`,
+          \nDigestive Disease Care\n+91-7534863345`,
         };
         try {
           await transporter.sendMail(mailOptions);
