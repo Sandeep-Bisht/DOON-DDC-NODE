@@ -1,22 +1,24 @@
 const connection = require('../../connection');
 module.exports = {
-    markRoutineHoliday: async (req, res) => {
-        const { date, reason, time } = req.body;
-        console.log("date", date, time, "time");
-      
-        const timeString = JSON.stringify(time); // Convert the array to a string
-      
-        connection.query(
-          `INSERT INTO holiday (date, reason, time) VALUES ('${date}', '${reason}', '${timeString}')`,
-          (error, results) => {
-            if (error) {
-              console.error(error);
-              return res.status(500).json({ error: "Failed to mark holiday" });
-            }
-            res.status(200).json({ message: "Holiday marked successfully" });
-          }
-        );
-      },
+  markRoutineHoliday: async (req, res) => {
+    const { date, reason, time } = req.body;
+    console.log("date", date, "time", time, "reason", reason);
+  
+    const timeString = JSON.stringify(time); // Convert the array to a string
+  
+    connection.query(
+      `INSERT INTO holiday (date, reason, time) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE reason = VALUES(reason), time = VALUES(time)`,
+      [date, reason, timeString],
+      (error, results) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).json({ error: "Holiday marked already" });
+        }
+        res.status(200).json({ message: "Holiday marked successfully" });
+      }
+    );
+  },
+  
       
     getAllHolidayList : async (req, res) => {
         connection.query("SELECT * FROM holiday", (error, results) => {
