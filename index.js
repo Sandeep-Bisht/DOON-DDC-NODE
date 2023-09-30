@@ -11,6 +11,7 @@ const AuthanticationRouter = require('./controller/authantication/authantication
 const PatientRouter = require('./controller/patient/patientRouting');
 const BlogRouter = require("./controller/blog/blogRouting");
 const HolidayRouter = require('./controller/holiday/holidayRouting')
+const ContactRouter = require('./controller/contactUs/contactusRouting')
 
 
 
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended : true }));
 
 app.use('/api/appointment', AppointmentRounter);
+app.use('/api/contactUs', ContactRouter);
 app.use('/api/registration', RegistrationRouter)
 app.use('/api/authantication', AuthanticationRouter);
 app.use('/api/patient', PatientRouter),
