@@ -101,7 +101,6 @@ module.exports = {
   },
   getBlogBySlug: async (req, res) => {
     const  payload  = req.body;
-    console.log("inside get Blog by slug", payload.slug);
     // SQL query to retrieve data by slug
     const query = "SELECT * FROM blog WHERE slug = ?";
     connection.query(query, [payload.slug], (error, results) => {
